@@ -41,10 +41,9 @@ class CoinRepositoryImpl(
                 val coinInfoDtoList = mapper.mapJsonContainerToListCoinInfoDto(jsonContainer)
                 val dbModelList = coinInfoDtoList.map { mapper.mapDtoToDbModel(it) }
                 coinInfoDao.insertPriceList(dbModelList)
-                delay(1000)
+                delay(10000)
             } catch (_: Exception) {
             }
         }
-
     }
 }

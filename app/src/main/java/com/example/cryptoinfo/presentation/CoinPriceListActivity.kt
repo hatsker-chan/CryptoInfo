@@ -9,14 +9,16 @@ import com.example.cryptoinfo.presentation.adapters.CoinInfoAdapter
 
 class CoinPriceListActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityCoinPriceListBinding
-    private lateinit var viewModel: CoinViewModel
+    private val binding by lazy {
+        ActivityCoinPriceListBinding.inflate(layoutInflater)
+    }
+    private val viewModel by lazy {
+        ViewModelProvider(this)[CoinViewModel::class.java]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCoinPriceListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
 
         val adapter = CoinInfoAdapter(this)
         binding.recyclerViewCoinPriceList.adapter = adapter
