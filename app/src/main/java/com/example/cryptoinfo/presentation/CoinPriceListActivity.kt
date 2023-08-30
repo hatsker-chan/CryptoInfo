@@ -1,14 +1,11 @@
-package com.example.cryptoinfo
+package com.example.cryptoinfo.presentation
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.cryptoinfo.adapters.CoinInfoAdapter
 import com.example.cryptoinfo.databinding.ActivityCoinPriceListBinding
-import com.example.cryptoinfo.pojo.CoinPriceInfo
+import com.example.cryptoinfo.domain.CoinInfo
+import com.example.cryptoinfo.presentation.adapters.CoinInfoAdapter
 
 class CoinPriceListActivity : AppCompatActivity() {
 
@@ -24,23 +21,16 @@ class CoinPriceListActivity : AppCompatActivity() {
         val adapter = CoinInfoAdapter(this)
         binding.recyclerViewCoinPriceList.adapter = adapter
         adapter.onCoinClickListener = object : CoinInfoAdapter.OnCoinClickListener {
-            override fun onCoinClick(coin: CoinPriceInfo) {
+            override fun onCoinClick(coin: CoinInfo) {
                 val intent = CoinDetailActivity.newIntent(
                     this@CoinPriceListActivity,
-                    coin.fromsymbol
+                    coin.fromSymbol
                 )
                 startActivity(intent)
             }
         }
-
-        viewModel.priceList.observe(this, Observer {
+        viewModel.coinInfoList.observe(this) {
             adapter.coinInfoList = it
-        })
-
-        viewModel.getDetailInfo("BTC").observe(this, Observer {
-            Log.d("TEST_OF_LOADING", "Success in activity: $it")
-        })
-
+        }
     }
-
 }

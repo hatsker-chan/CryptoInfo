@@ -1,4 +1,4 @@
-package com.example.cryptoinfo.adapters
+package com.example.cryptoinfo.presentation.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,12 +9,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.cryptoinfo.R
-import com.example.cryptoinfo.pojo.CoinPriceInfo
+import com.example.cryptoinfo.domain.CoinInfo
 import com.squareup.picasso.Picasso
 
-class CoinInfoAdapter(private val context: Context) : Adapter<CoinInfoAdapter.CoinInfoViewHolder>() {
+class CoinInfoAdapter(private val context: Context) :
+    Adapter<CoinInfoAdapter.CoinInfoViewHolder>() {
 
-    var coinInfoList: List<CoinPriceInfo> = ArrayList()
+    var coinInfoList: List<CoinInfo> = ArrayList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -42,22 +43,23 @@ class CoinInfoAdapter(private val context: Context) : Adapter<CoinInfoAdapter.Co
 
     override fun onBindViewHolder(holder: CoinInfoViewHolder, position: Int) {
         val coin = coinInfoList[position]
-        with(holder){
+        with(holder) {
             val symbolsTemplate = context.resources.getString(R.string.symbols_template)
             val lastUpdateTemplate = context.resources.getString(R.string.last_update)
 
-            textViewSymbols.text = String.format(symbolsTemplate, coin.fromsymbol, coin.tosymbol)
+            textViewSymbols.text = String.format(symbolsTemplate, coin.fromSymbol, coin.toSymbol)
             textViewPrice.text = coin.price.toString()
-            textViewUpdateTime.text = String.format(lastUpdateTemplate, coin.getFormattedTime())
-            Picasso.get().load(coin.getFullImageUrl()).into(holder.ivLogoCoin)
+            textViewUpdateTime.text =
+                String.format(lastUpdateTemplate, coin.lastUpdate)
+            Picasso.get().load(coin.imageUrl).into(holder.ivLogoCoin)
             itemView.setOnClickListener {
                 onCoinClickListener?.onCoinClick(coin)
             }
         }
     }
 
-    interface OnCoinClickListener{
-        fun onCoinClick(coin: CoinPriceInfo)
+    interface OnCoinClickListener {
+        fun onCoinClick(coin: CoinInfo)
     }
 
 }
