@@ -13,6 +13,7 @@ class CoinPriceListActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityCoinPriceListBinding.inflate(layoutInflater)
     }
+
     private val viewModel by lazy {
         ViewModelProvider(this)[CoinViewModel::class.java]
     }
@@ -26,7 +27,7 @@ class CoinPriceListActivity : AppCompatActivity() {
         binding.recyclerViewCoinPriceList.itemAnimator = null
         adapter.onCoinClickListener = object : CoinInfoAdapter.OnCoinClickListener {
             override fun onCoinClick(coin: CoinInfo) {
-                if (isOnePaneMode()){
+                if (isOnePaneMode()) {
                     launchDetailActivity(coin.fromSymbol)
                 } else {
                     launchDetailFragment(coin.fromSymbol)
@@ -40,7 +41,7 @@ class CoinPriceListActivity : AppCompatActivity() {
 
     private fun isOnePaneMode() = binding.fragmentContainer == null
 
-    private fun launchDetailActivity(fSym: String){
+    private fun launchDetailActivity(fSym: String) {
         val intent = CoinDetailActivity.newIntent(
             this@CoinPriceListActivity,
             fSym
@@ -48,7 +49,7 @@ class CoinPriceListActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun launchDetailFragment(fSym: String){
+    private fun launchDetailFragment(fSym: String) {
         supportFragmentManager.popBackStack()
         supportFragmentManager
             .beginTransaction()
